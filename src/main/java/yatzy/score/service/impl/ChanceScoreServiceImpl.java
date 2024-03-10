@@ -13,8 +13,12 @@ import yatzy.score.service.ScoreObserverService;
  */
 public class ChanceScoreServiceImpl implements ScoreObserverService {
 
+	/**
+	 * @see yatzy.score.service.ScoreObserverService#updateScore(int[])
+	 */
 	@Override
 	public int updateScore(int[] dice) {
+		
 		return calculateScore(dice);
 	}
 
@@ -25,6 +29,7 @@ public class ChanceScoreServiceImpl implements ScoreObserverService {
 	 * @return The calculated score based on the sum of dice values.
 	 */
 	public int calculateScore(int[] dice) {
+		
 		// Summing up all the dice values using Java Streams API
 		return Arrays.stream(dice).sum();
 	}

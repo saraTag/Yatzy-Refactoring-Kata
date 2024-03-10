@@ -1,7 +1,7 @@
 package yatzy.score.service.impl;
 
-import java.util.Arrays;
-
+import yatzy.score.commun.score.utils.CalculScoreUtils;
+import yatzy.score.commun.score.utils.Constants;
 import yatzy.score.service.ScoreObserverService;
 
 /**
@@ -12,12 +12,14 @@ import yatzy.score.service.ScoreObserverService;
  */
 public class PairScoreServiceImpl implements ScoreObserverService {
 
+	/**
+	 * @see yatzy.score.service.ScoreObserverService#updateScore(int[])
+	 */
 	@Override
 	public int updateScore(int[] dice) {
 
 		return calculScore(dice);
 	}
-
 
 	/**
 	 * Calculates the score for the pair category.
@@ -27,17 +29,20 @@ public class PairScoreServiceImpl implements ScoreObserverService {
 	 */
 	public int calculScore(int[] dice) {
 
-		int[] counts = new int[6];
-		for (int i = 0; i < dice.length; i++) {
-			counts[dice[i] - 1]++;
-		}
+	    // Count occurrences of each dice value
+		int[] diceOccurences = CalculScoreUtils.countOccurrences(dice);
 
-		return Arrays.stream(counts)
-				.mapToObj(count -> count >= 2 ? count : 0)
-				.filter(count -> count != 0)
-				.map(count -> (6 - count) * 2)
-				.findFirst()
-				.orElse(0);
+		// Find the index of the first value greater than or equal to 2 from the 
+		// right side of the diceOccurrences array
+		int[] diceArray = CalculScoreUtils.getDiceWithPairsOccurrences(diceOccurences, 
+				Constants.NUMBER_OF_ONE_PAIR);
+		
+		if(diceArray.length != 0)
+		{
+			return diceArray[0] * 2;
+		}
+		
+		return 0;
 	}
 
 }

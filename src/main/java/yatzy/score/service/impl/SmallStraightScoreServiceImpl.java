@@ -1,7 +1,7 @@
 package yatzy.score.service.impl;
 
-import java.util.Arrays;
-
+import yatzy.score.commun.score.utils.CalculScoreUtils;
+import yatzy.score.commun.score.utils.Constants;
 import yatzy.score.service.ScoreObserverService;
 
 /**
@@ -26,13 +26,14 @@ public class SmallStraightScoreServiceImpl implements ScoreObserverService {
 	 */
 	public int calculScore(int[] dice) {
 
-		int[] tallies = new int[6];
-		for (int die : dice) {
-			tallies[die - 1]++;
-		}
-		if (Arrays.stream(tallies).allMatch(count -> count == 1)) {
-			return 15;
-		}
-		return 0;
+		// Count occurrences of each dice value
+		int[] diceOccurences = CalculScoreUtils.countOccurrences(dice);
+
+		// Checking if all dice occurences was 1
+		boolean allOnes = CalculScoreUtils.isOneValueForOccurrences(diceOccurences, 
+				Constants.INDEX_START_TO_ZERO, Constants.INDEX_END_TO_FOUR);
+
+		return allOnes ? Constants.YATZY_SCORE_15 : Constants.YATZY_SCORE_0;
+
 	}
 }

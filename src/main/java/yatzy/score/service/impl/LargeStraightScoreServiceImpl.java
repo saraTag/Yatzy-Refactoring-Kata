@@ -1,5 +1,7 @@
 package yatzy.score.service.impl;
 
+import yatzy.score.commun.score.utils.CalculScoreUtils;
+import yatzy.score.commun.score.utils.Constants;
 import yatzy.score.service.ScoreObserverService;
 
 /**
@@ -10,6 +12,9 @@ import yatzy.score.service.ScoreObserverService;
  */
 public class LargeStraightScoreServiceImpl implements ScoreObserverService {
 
+	/**
+	 * @see yatzy.score.service.ScoreObserverService#updateScore(int[])
+	 */
 	@Override
 	public int updateScore(int[] dice) {
 
@@ -24,15 +29,15 @@ public class LargeStraightScoreServiceImpl implements ScoreObserverService {
 	 */
 	public int calculScore(int[] dice) {
 
-		int[] tallies = new int[6];
-		for (int die : dice) {
-			tallies[die - 1]++;
-		}
+		int[] diceOccurences = CalculScoreUtils.countOccurrences(dice);
 
-		boolean isLargeStraight = java.util.stream.Stream.iterate(1, i -> i + 1).limit(5)
-				.allMatch(i -> tallies[i] == 1);
+	    // Checking if all dice occurences was 1
+		boolean isLargeStraight = CalculScoreUtils.isOneValueForOccurrences(diceOccurences, 
+				Constants.INDEX_START_TO_ONE, Constants.INDEX_END_TO_FIVE);
 
-		return isLargeStraight ? 20 : 0;
+		return isLargeStraight ? Constants.YATZY_SCORE_20 : Constants.YATZY_SCORE_0;
 	}
+
+	
 
 }

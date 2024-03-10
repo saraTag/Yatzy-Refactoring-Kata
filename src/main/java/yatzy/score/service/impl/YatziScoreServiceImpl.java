@@ -2,6 +2,7 @@ package yatzy.score.service.impl;
 
 import java.util.Arrays;
 
+import yatzy.score.commun.score.utils.CalculScoreUtils;
 import yatzy.score.service.ScoreObserverService;
 
 /**
@@ -13,6 +14,9 @@ import yatzy.score.service.ScoreObserverService;
  */
 public class YatziScoreServiceImpl implements ScoreObserverService {
 
+	/**
+	 * @see yatzy.score.service.ScoreObserverService#updateScore(int[])
+	 */
 	@Override
 	public int updateScore(int[] dice) {
 
@@ -28,18 +32,19 @@ public class YatziScoreServiceImpl implements ScoreObserverService {
 	public int calculScore(int[] dice) {
 
 		// Count occurrences of each dice value
-		int[] counts = new int[6];
-		Arrays.stream(dice)
-		.forEach(die -> counts[die-1]++);
+		int[] diceOccurences = CalculScoreUtils.countOccurrences(dice);
 
 		// Check if any value has occurred 5 times
-		if (Arrays.stream(counts)
-				.anyMatch(count -> count == 5)) 
+		boolean FiveOccurrence = Arrays.stream(diceOccurences)
+				.anyMatch(count -> count == 5);
+		
+		if (FiveOccurrence) 
 		{
-			return 50; // Yatzy! Return 50
-		} else 
+			return 50;
+		} 
+		else 
 		{
-			return 0; // Not a Yatzy. Return 0
-		}
+			return 0;
+		}	
 	}
 }

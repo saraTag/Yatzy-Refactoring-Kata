@@ -1,8 +1,6 @@
 package yatzy.score.service.impl;
 
-import java.util.Arrays;
-import java.util.stream.Stream;
-
+import yatzy.score.commun.score.utils.CalculScoreUtils;
 import yatzy.score.commun.score.utils.Constants;
 import yatzy.score.service.ScoreObserverService;
 
@@ -14,12 +12,13 @@ import yatzy.score.service.ScoreObserverService;
  */
 public class OnesScoreServiceImpl implements ScoreObserverService {
 
+	/**
+	 * @see yatzy.score.service.ScoreObserverService#updateScore(int[])
+	 */
 	@Override
 	public int updateScore(int[] dice) {
 
-		return (int) Stream.of(dice)
-				.flatMapToInt(Arrays::stream)
-				.filter(die -> die == Constants.NUMBER_ONE_OF_DICE)
-				.count();
+		// Count the occurrences of 1 dice
+		return CalculScoreUtils.sumDiceValues(dice, Constants.DICE_SIDE_ONE);
 	}
 }

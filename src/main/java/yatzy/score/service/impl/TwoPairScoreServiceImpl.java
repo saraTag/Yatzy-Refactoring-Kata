@@ -1,17 +1,21 @@
 package yatzy.score.service.impl;
 
-import java.util.Arrays;
-
+import yatzy.score.commun.score.utils.CalculScoreUtils;
+import yatzy.score.commun.score.utils.Constants;
 import yatzy.score.service.ScoreObserverService;
 
 /**
  * Implementation of {@link ScoreObserverService} 
- * It calculates the total score by summing up the values of the two pairs.
+ * It calculates the total score by summing up the values of 
+ * the two pairs.
  * 
  * @author stagziria
  */
 public class TwoPairScoreServiceImpl implements ScoreObserverService {
 
+	/**
+	 * @see yatzy.score.service.ScoreObserverService#updateScore(int[])
+	 */
 	@Override
 	public int updateScore(int[] dice) {
 
@@ -26,23 +30,19 @@ public class TwoPairScoreServiceImpl implements ScoreObserverService {
 	 */
 	public int calculScore(int[] dice) {
 
-		int[] counts = new int[6];
-
-		for (int i = 0; i < dice.length; i++) {
-			counts[dice[i] - 1]++;
-		}
-
-		int n = (int) Arrays.stream(counts)
-				.filter(count -> count >= 2)
-				.count();
-
-		int score = Arrays.stream(counts)
-				.filter(count -> count >= 2)
-				.map(count -> 6 - count)
-				.limit(2)
-				.sum();
-
-		return n == 2 ? score * 2 : 0;
+		// Count occurrences of each dice value
+		int[] diceOccurrences = CalculScoreUtils.countOccurrences(dice);
+        
+		// Find the indices of the two largest values in the diceOccurences array
+		int[] diceArray = CalculScoreUtils.getDiceWithPairsOccurrences(diceOccurrences, 
+				Constants.NUMBER_OF_TWO_PAIR);
+		
+		// If lastIndex contains exactly two indices, return the sum of the indices plus 2, 
+		//multiplied by 2, otherwise return 0
+		return diceArray.length == Constants.NUMBER_OF_TWO_PAIR  ? (diceArray[0] + 
+				diceArray[1]) * Constants.NUMBER_OF_TWO_PAIR : Constants.YATZY_SCORE_0;
 	}
+
+	
 
 }

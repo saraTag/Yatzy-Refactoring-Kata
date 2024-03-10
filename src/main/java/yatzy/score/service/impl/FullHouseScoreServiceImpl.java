@@ -1,7 +1,9 @@
 package yatzy.score.service.impl;
 
+import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
+import yatzy.score.commun.score.utils.CalculScoreUtils;
 import yatzy.score.service.ScoreObserverService;
 
 /**
@@ -12,6 +14,9 @@ import yatzy.score.service.ScoreObserverService;
  */
 public class FullHouseScoreServiceImpl implements ScoreObserverService {
 
+	/**
+	 * @see yatzy.score.service.ScoreObserverService#updateScore(int[])
+	 */
 	@Override
 	public int updateScore(int[] dice) {
 
@@ -26,20 +31,28 @@ public class FullHouseScoreServiceImpl implements ScoreObserverService {
 	 */
 	public int calculScore(int[] dice) {
 
-		int[] tallies = new int[6];
-		for (int die : dice) {
-			tallies[die - 1]++;
+		// Count occurrences of each dice value
+		int[] diceOccurrences = CalculScoreUtils.countOccurrences(dice);
+
+		// Find the index of the first value with exactly two occurrences
+		OptionalInt twoOccurrencesIndex = IntStream.range(0, diceOccurrences.length)
+				.filter(i -> diceOccurrences[i] == 2)
+				.findFirst();
+
+		// Find the index of the first value with exactly three occurrences
+		OptionalInt threeOccurrencesIndex = IntStream.range(0, diceOccurrences.length)
+				.filter(i -> diceOccurrences[i] == 3)
+				.findFirst();
+
+		if(twoOccurrencesIndex.isPresent() && threeOccurrencesIndex.isPresent())
+		{
+			return (twoOccurrencesIndex.getAsInt() + 1) * 2 + 
+					(threeOccurrencesIndex.getAsInt() + 1) * 3;
 		}
-
-		boolean hasTwo = IntStream.range(0, 6).anyMatch(i -> tallies[i] == 2);
-		boolean hasThree = IntStream.range(0, 6).anyMatch(i -> tallies[i] == 3);
-
-		if (hasTwo && hasThree) {
-			int _2_at = IntStream.range(0, 6).filter(i -> tallies[i] == 2).findFirst().orElse(-1) + 1;
-			int _3_at = IntStream.range(0, 6).filter(i -> tallies[i] == 3).findFirst().orElse(-1) + 1;
-			return _2_at * 2 + _3_at * 3;
-		} else {
+		else
+		{
 			return 0;
 		}
+
 	}
 }

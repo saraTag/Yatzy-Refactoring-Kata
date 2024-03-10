@@ -1,5 +1,7 @@
 package yatzy.score.service.impl;
 
+import yatzy.score.commun.score.utils.CalculScoreUtils;
+import yatzy.score.commun.score.utils.Constants;
 import yatzy.score.service.ScoreObserverService;
 
 /**
@@ -11,6 +13,9 @@ import yatzy.score.service.ScoreObserverService;
  */
 public class ThreeKindScoreServiceImpl implements ScoreObserverService {
 
+	/**
+	 * @see yatzy.score.service.ScoreObserverService#updateScore(int[])
+	 */
 	@Override
 	public int updateScore(int[] dice) {
 
@@ -25,16 +30,11 @@ public class ThreeKindScoreServiceImpl implements ScoreObserverService {
 	 */
 	public int calculScore(int[] dice) {
 
-		int[] tallies = new int[6];
-		for (int die : dice) {
-			tallies[die - 1]++;
-		}
-		for (int i = 0; i < 6; i++) {
-			if (tallies[i] >= 3) {
-				return (i + 1) * 3;
-			}
-		}
-		return 0;
+		// Count occurrences of each dice value
+		int[] diceOccurrences = CalculScoreUtils.countOccurrences(dice);
+
+		// Check for three of a kind
+	    return CalculScoreUtils.checkDiceOfKind(diceOccurrences, Constants.THREE_OCCURRENCES);
 	}
 
 }

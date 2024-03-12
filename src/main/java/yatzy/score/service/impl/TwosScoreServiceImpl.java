@@ -2,18 +2,18 @@ package yatzy.score.service.impl;
 
 import yatzy.score.commun.score.utils.CalculScoreUtils;
 import yatzy.score.commun.score.utils.Constants;
-import yatzy.score.service.ScoreObserverService;
+import yatzy.score.service.ScoreObserverStrategyService;
 
 /**
- * Implementation of {@link ScoreObserverService}
+ * Implementation of {@link ScoreObserverStrategyService}
  * It calculates the total score by summing up the values of the twos.
  * 
  * @author stagziria
  */
-public class TwosScoreServiceImpl implements ScoreObserverService {
+public class TwosScoreServiceImpl implements ScoreObserverStrategyService {
 
 	/**
-	 * @see yatzy.score.service.ScoreObserverService#updateScore(int[])
+	 * @see yatzy.score.service.ScoreObserverStrategyService#updateScore(int[])
 	 */
 	@Override
 	public int updateScore(int[] dice) {
@@ -29,7 +29,7 @@ public class TwosScoreServiceImpl implements ScoreObserverService {
 	 */
 	public int calculScore(int[] dice) {
 
-		// Count the occurrences of 2 dice
+		// Sum dice with value 2
 		return CalculScoreUtils.sumDiceValues(dice, Constants.DICE_SIDE_TWO);
 	}
 }

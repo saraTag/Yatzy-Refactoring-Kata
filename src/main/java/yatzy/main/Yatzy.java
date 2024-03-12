@@ -1,12 +1,13 @@
 package yatzy.main;
 
-import yatzy.score.service.ScoreObserverService;
+import yatzy.score.service.ScoreObserverStrategyService;
 
 /**
  * {@link Yatzy.java}
  * This class represents a Yatzy game instance.
  * It keeps track of the dice values and notifies
- * a score observer service when the dice values are updated.
+ * a score observer service to update score by calculating according to
+ * different strategies.
  * 
  * @author stagziria
  */
@@ -15,8 +16,8 @@ public class Yatzy {
     /** Array to store dice values **/
 	private int[] dice; 
 	
-	/** Observer service to notify **/
-    private ScoreObserverService scoreObserver; 
+	/** Observer service to notify for calculing score **/
+    private ScoreObserverStrategyService scoreObserver; 
 
     /** Singleton instance **/
     private static Yatzy instance;
@@ -34,7 +35,7 @@ public class Yatzy {
     /**
      * Singleton getInstance method to ensure only one instance exists
      * @param dice The array containing the dice values.
-     * @return
+     * @return The singleton instance of Yatzy
      */
     public static Yatzy getInstance(int... dice) {
         
@@ -52,7 +53,7 @@ public class Yatzy {
      * Setter for the score observer service
      * @param scoreObserver The score observer service to be set
      */
-    public void setScoreObserver(ScoreObserverService scoreObserver) {
+    public void setScoreObserver(ScoreObserverStrategyService scoreObserver) {
         
     	this.scoreObserver = scoreObserver;
         notifyScoreObserver(); 

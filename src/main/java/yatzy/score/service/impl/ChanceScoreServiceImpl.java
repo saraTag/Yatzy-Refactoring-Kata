@@ -2,19 +2,19 @@ package yatzy.score.service.impl;
 
 import java.util.Arrays;
 
-import yatzy.score.service.ScoreObserverService;
+import yatzy.score.service.ScoreObserverStrategyService;
 
 /**
- * Implementation of {@link ScoreObserverService.java} 
+ * Implementation of {@link ScoreObserverStrategyService.java} 
  * 
  * This implementation sums up all the dice values.
  * 
  * @author stagziria
  */
-public class ChanceScoreServiceImpl implements ScoreObserverService {
+public class ChanceScoreServiceImpl implements ScoreObserverStrategyService {
 
 	/**
-	 * @see yatzy.score.service.ScoreObserverService#updateScore(int[])
+	 * @see yatzy.score.service.ScoreObserverStrategyService#updateScore(int[])
 	 */
 	@Override
 	public int updateScore(int[] dice) {
@@ -30,7 +30,7 @@ public class ChanceScoreServiceImpl implements ScoreObserverService {
 	 */
 	public int calculateScore(int[] dice) {
 		
-		// Summing up all the dice values using Java Streams API
+		// Summing up all the dice values
 		return Arrays.stream(dice).sum();
 	}
 }

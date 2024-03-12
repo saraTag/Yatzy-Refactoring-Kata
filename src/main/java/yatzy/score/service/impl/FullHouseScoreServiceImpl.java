@@ -1,10 +1,8 @@
 package yatzy.score.service.impl;
 
-import java.util.OptionalInt;
-import java.util.stream.IntStream;
-
 import yatzy.score.commun.score.utils.CalculScoreUtils;
-import yatzy.score.service.ScoreObserverService;
+import yatzy.score.commun.score.utils.Constants;
+import yatzy.score.service.ScoreObserverStrategyService;
 
 /**
  * Implementation of {@linkScoreObserverService} 
@@ -12,10 +10,10 @@ import yatzy.score.service.ScoreObserverService;
  * 
  * @author stagziria
  */
-public class FullHouseScoreServiceImpl implements ScoreObserverService {
+public class FullHouseScoreServiceImpl implements ScoreObserverStrategyService {
 
 	/**
-	 * @see yatzy.score.service.ScoreObserverService#updateScore(int[])
+	 * @see yatzy.score.service.ScoreObserverStrategyService#updateScore(int[])
 	 */
 	@Override
 	public int updateScore(int[] dice) {
@@ -34,25 +32,24 @@ public class FullHouseScoreServiceImpl implements ScoreObserverService {
 		// Count occurrences of each dice value
 		int[] diceOccurrences = CalculScoreUtils.countOccurrences(dice);
 
-		// Find the index of the first value with exactly two occurrences
-		OptionalInt twoOccurrencesIndex = IntStream.range(0, diceOccurrences.length)
-				.filter(i -> diceOccurrences[i] == 2)
-				.findFirst();
+		// Find the first die with exactly two occurrences
+		Integer dieWithTwoOccurrences = CalculScoreUtils.findDiceOccurrence(diceOccurrences, 
+				Constants.TWO_OCCURRENCES, Constants.EQUAL_OCCURRENCES_OPERATOR);
 
-		// Find the index of the first value with exactly three occurrences
-		OptionalInt threeOccurrencesIndex = IntStream.range(0, diceOccurrences.length)
-				.filter(i -> diceOccurrences[i] == 3)
-				.findFirst();
+		// Find the first die with exactly three occurrences
+		Integer dieWithThreeOccurrences = CalculScoreUtils.findDiceOccurrence(diceOccurrences, 
+				Constants.THREE_OCCURRENCES, Constants.EQUAL_OCCURRENCES_OPERATOR);
 
-		if(twoOccurrencesIndex.isPresent() && threeOccurrencesIndex.isPresent())
+		if(dieWithTwoOccurrences != null && dieWithThreeOccurrences != null)
 		{
-			return (twoOccurrencesIndex.getAsInt() + 1) * 2 + 
-					(threeOccurrencesIndex.getAsInt() + 1) * 3;
+			return dieWithTwoOccurrences * Constants.TWO_OCCURRENCES + 
+					dieWithThreeOccurrences * Constants.THREE_OCCURRENCES;
 		}
 		else
 		{
-			return 0;
+			return Constants.YATZY_SCORE_0;
 		}
 
 	}
+
 }

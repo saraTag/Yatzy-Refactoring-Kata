@@ -2,19 +2,19 @@ package yatzy.score.service.impl;
 
 import yatzy.score.commun.score.utils.CalculScoreUtils;
 import yatzy.score.commun.score.utils.Constants;
-import yatzy.score.service.ScoreObserverService;
+import yatzy.score.service.ScoreObserverStrategyService;
 
 /**
- * Implementation of {@link ScoreObserverService} 
+ * Implementation of {@link ScoreObserverStrategyService} 
  * It checks if there are at least three dice with the same 
  * value and calculates the score accordingly.
  * 
  * @author stagziria
  */
-public class ThreeKindScoreServiceImpl implements ScoreObserverService {
+public class ThreeKindScoreServiceImpl implements ScoreObserverStrategyService {
 
 	/**
-	 * @see yatzy.score.service.ScoreObserverService#updateScore(int[])
+	 * @see yatzy.score.service.ScoreObserverStrategyService#updateScore(int[])
 	 */
 	@Override
 	public int updateScore(int[] dice) {
@@ -33,8 +33,19 @@ public class ThreeKindScoreServiceImpl implements ScoreObserverService {
 		// Count occurrences of each dice value
 		int[] diceOccurrences = CalculScoreUtils.countOccurrences(dice);
 
-		// Check for three of a kind
-	    return CalculScoreUtils.checkDiceOfKind(diceOccurrences, Constants.THREE_OCCURRENCES);
+		// Find die with more then four occurrences
+	    Integer dieValue = CalculScoreUtils.findDiceOccurrence(diceOccurrences, 
+	    		Constants.THREE_OCCURRENCES, Constants.MORE_THEN_OCCURRENCES_OPERATOR);
+	    
+	    // Calculates the score based on the occurrence of of die value
+		if(dieValue != null)
+		{
+			return dieValue * Constants.THREE_OCCURRENCES;
+		}
+		else
+		{
+			return Constants.YATZY_SCORE_0;
+		}
 	}
 
 }

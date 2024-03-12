@@ -6,7 +6,7 @@ package yatzy.score.commun.score.utils;
  * @author stagziria
  * 
  */
-public class Constants {
+public final class Constants {
 
 	//Dice faces
 	/** Represents the face value of one on a dice **/
@@ -23,10 +23,6 @@ public class Constants {
 	public static final int DICE_SIDE_SIX = 6;
 	/** Represents the total number of sides on a dice **/
 	public static final int DICE_NUMBER_SIDES = 6;
-	/** Represents the starting index for dice arrays **/
-	public static final int DICE_START_INDEX = 0;
-	/** Represents the ending index for dice arrays **/
-	public static final int DICE_END_INDEX = 6;
 
 	//Dice score 
 	/** Represents a Yatzy score of 0 **/
@@ -39,13 +35,17 @@ public class Constants {
 	public static final int YATZY_SCORE_20 = 20;
 
 
-	//Dice kind
+	//Dice occurrences
+	/** Represents a single occurrence**/
+	public static final int ONE_OCCURRENCE = 1;
+	/** Represents two occurrences **/
+	public static final int TWO_OCCURRENCES = 2;
 	/** Rerensents three occurences **/
 	public static final int THREE_OCCURRENCES = 3;
 	/** Rerensents four occurences **/
 	public static final int FOUR_OCCURRENCES = 4;
 
-	//index
+	//Index
 	/** Represents start index on 0 **/
 	public static final int INDEX_START_TO_ZERO = 0;
 	/** Represents start index on 1 **/
@@ -54,19 +54,24 @@ public class Constants {
 	public static final int INDEX_END_TO_FIVE = 5;
 	/** Represents end index on 4 **/
 	public static final int INDEX_END_TO_FOUR = 4;
+	/** Represents end index on 6 **/
+	public static final int INDEX_END_TO_SIX = 6;
 	
-	//Occurrences array
+	//Pair count
 	/** Represents the number of 2 pairs **/
 	public static final int NUMBER_OF_TWO_PAIR = 2;
 	/** Represents single pair **/
 	public static final int NUMBER_OF_ONE_PAIR = 1;
-	/** Represents a single occurrence**/
-	public static final int ONE_OCCURRENCE = 1;
-	/** Represents two occurrences **/
-	public static final int TWO_OCCURRENCES = 2;
-
-
-
-
-
+	
+	//Operators
+	/** Represents the  more then occurrences operator >= **/
+	public static final String MORE_THEN_OCCURRENCES_OPERATOR = ">=";
+	/** Represents the equal occurrences operator = **/
+	public static final String EQUAL_OCCURRENCES_OPERATOR = "=";
+	
+	/** Constructor **/
+	private Constants() {
+		// constructor
+	}
+	
 }

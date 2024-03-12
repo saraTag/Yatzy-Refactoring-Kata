@@ -2,18 +2,18 @@ package yatzy.score.service.impl;
 
 import yatzy.score.commun.score.utils.CalculScoreUtils;
 import yatzy.score.commun.score.utils.Constants;
-import yatzy.score.service.ScoreObserverService;
+import yatzy.score.service.ScoreObserverStrategyService;
 
 /**
- * Implementation of {@link ScoreObserverService} 
+ * Implementation of {@link ScoreObserverStrategyService} 
  * It calculates the score based on whether the dice values form a large straight.
  * 
  * @author stagziria
  */
-public class LargeStraightScoreServiceImpl implements ScoreObserverService {
+public class LargeStraightScoreServiceImpl implements ScoreObserverStrategyService {
 
 	/**
-	 * @see yatzy.score.service.ScoreObserverService#updateScore(int[])
+	 * @see yatzy.score.service.ScoreObserverStrategyService#updateScore(int[])
 	 */
 	@Override
 	public int updateScore(int[] dice) {
@@ -34,10 +34,15 @@ public class LargeStraightScoreServiceImpl implements ScoreObserverService {
 	    // Checking if all dice occurences was 1
 		boolean isLargeStraight = CalculScoreUtils.isOneValueForOccurrences(diceOccurences, 
 				Constants.INDEX_START_TO_ONE, Constants.INDEX_END_TO_FIVE);
+		
+		if(isLargeStraight)
+		{
+			return Constants.YATZY_SCORE_20;
+		}
+		else
+		{
+			return Constants.YATZY_SCORE_0;
+		}
 
-		return isLargeStraight ? Constants.YATZY_SCORE_20 : Constants.YATZY_SCORE_0;
 	}
-
-	
-
 }

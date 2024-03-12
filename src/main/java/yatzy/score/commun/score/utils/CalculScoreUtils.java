@@ -6,11 +6,11 @@ import java.util.stream.IntStream;
 
 /**
  * {@link CalculScoreUtils.java} 
- * Class that contains utility methods for calculating the score
+ * Class that contains utility methods for calculating the score.
  * @author stagziria
  *
  */
-public class CalculScoreUtils {
+public final class CalculScoreUtils {
 
 
 	/**
@@ -47,43 +47,52 @@ public class CalculScoreUtils {
 	}
 
 	/**
-	 * Checks if there are dice of a particular occurrence and calculates the score accordingly.
-	 * 
-	 * @param diceOccurrences an array representing the occurrences of each dice value
-	 * @param occurrence the desired occurrence of a dice value to check
-	 * @return the calculated score based on the occurrence of dice values, or 0 if no occurrence is found
+	 * Finds the occurrence of a given value in an array of dice occurrences based on the specified operator.
+	 *
+	 * @param diceOccurrences An array representing the occurrences of each dice value.
+	 * @param occurrence The target occurrence value to search for.
+	 * @param operator The operator specifying the condition for occurrence comparison.
+	 * @return The index of the first occurrence matching the condition, plus one, or null if not found.
 	 */
-	public static int checkDiceOfKind(int[] diceOccurrences, int occurrence) {
+	public static Integer findDiceOccurrence(int[] diceOccurrences, int occurrence, String operator) 
+	{
+		OptionalInt dievalueMinusOne = switch (operator) {
 
-	    //Filter dice values by occurrence.
-		OptionalInt score = IntStream.range(Constants.DICE_START_INDEX , Constants.DICE_END_INDEX)
-				.filter(dieValueMinusOne -> diceOccurrences[dieValueMinusOne] >= occurrence)
-				.findFirst();
+		case Constants.EQUAL_OCCURRENCES_OPERATOR -> IntStream.range(Constants.INDEX_START_TO_ZERO
+				, Constants.INDEX_END_TO_SIX)
+		.filter(dieValueMinusOne -> diceOccurrences[dieValueMinusOne] == occurrence)
+		.findFirst();
 
-        // If a score is present, calculates the score based on the occurrence of dice values
-		if(score.isPresent())
+		case Constants.MORE_THEN_OCCURRENCES_OPERATOR -> IntStream.range(Constants.INDEX_START_TO_ZERO
+				, Constants.INDEX_END_TO_SIX)
+		.filter(dieValueMinusOne -> diceOccurrences[dieValueMinusOne] >= occurrence)
+		.findFirst();
+
+		default -> OptionalInt.empty(); 
+		};
+
+		if(dievalueMinusOne.isPresent())
 		{
-			return (score.getAsInt() + 1) * occurrence;
+			return (dievalueMinusOne.getAsInt() + 1);
 		}
-		else
-		{
-			return Constants.YATZY_SCORE_0;
-		}
+
+		return null;
 	}
 
 	/**
 	 * Checks if all occurrences of dice values within a specified range are equal to 1.
 	 *
 	 * @param diceOccurrences an array representing the occurrences of dice values
-	 * @param startIndex the starting index of the range to check (inclusive)
-	 * @param lastIndex the ending index of the range to check (inclusive)
+	 * @param startIndexOfOccurrences the starting index of the range to check.
+	 * @param lastIndex the ending index of the range to check.
 	 * @return true if all occurrences within the specified range are 1, otherwise false
 	 */
-	public static boolean isOneValueForOccurrences(int[] diceOccurences, int startIndex, int lastIndex) {
+	public static boolean isOneValueForOccurrences(int[] diceOccurences, int startIndexOfOccurrences, 
+			int lastIndexOfOccurrences) {
 
 		//Checks if all occurrences of dice values within the specified range,
 		//starting from startIndex to lastIndex are equal to 1.
-		return IntStream.rangeClosed(startIndex, lastIndex)
+		return IntStream.rangeClosed(startIndexOfOccurrences, lastIndexOfOccurrences)
 				.allMatch(dieMinusUnValue -> diceOccurences[dieMinusUnValue] == Constants.ONE_OCCURRENCE);
 	}
 
@@ -91,16 +100,16 @@ public class CalculScoreUtils {
 	 * Retrieves the indices of dice values with pairs occurrences.
 	 *
 	 * @param diceOccurrences an array representing the occurrences of dice values
-	 * @param pairsNumber the number of pairs to retrieve
+	 * @param pairsCount the count of dice pair to retrieve
 	 * @return an array containing the indices of dice values with pairs occurrences
 	 */
-	public static int[] getDiceWithPairsOccurrences(int[] diceOccurrences, int pairsNumber) {
+	public static int[] getDiceWithPairsOccurrences(int[] diceOccurrences, int pairsCount) {
 
 		// Get dice array with 2 or more occurrences
 		int[] diceMinusOneArray = IntStream.range(0, diceOccurrences.length)
-				.map(index -> diceOccurrences.length - 1 - index) 
-				.filter(index -> diceOccurrences[index] >= Constants.TWO_OCCURRENCES) 
-				.limit(pairsNumber)
+				.map(dieValueMinusOne -> diceOccurrences.length - 1 - dieValueMinusOne) 
+				.filter(dieValueMinusOne -> diceOccurrences[dieValueMinusOne] >= Constants.TWO_OCCURRENCES) 
+				.limit(pairsCount)
 				.toArray();
 
 		return getDiceValues(diceMinusOneArray, new int[diceMinusOneArray.length]);

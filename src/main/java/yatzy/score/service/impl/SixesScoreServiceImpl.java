@@ -2,19 +2,19 @@ package yatzy.score.service.impl;
 
 import yatzy.score.commun.score.utils.CalculScoreUtils;
 import yatzy.score.commun.score.utils.Constants;
-import yatzy.score.service.ScoreObserverService;
+import yatzy.score.service.ScoreObserverStrategyService;
 
 /**
- * Implementation of {@link ScoreObserverService} 
+ * Implementation of {@link ScoreObserverStrategyService} 
  * It counts the occurrences of sixes in the dice values 
  * and calculates the score for the sixes category.
  * 
  * @author stagziria
  */
-public class SixesScoreServiceImpl implements ScoreObserverService {
+public class SixesScoreServiceImpl implements ScoreObserverStrategyService {
 
 	/**
-	 * @see yatzy.score.service.ScoreObserverService#updateScore(int[])
+	 * @see yatzy.score.service.ScoreObserverStrategyService#updateScore(int[])
 	 */
 	@Override
 	public int updateScore(int[] dice) {
@@ -30,7 +30,7 @@ public class SixesScoreServiceImpl implements ScoreObserverService {
 	 */
 	public int calculScore(int[] dice) {
 
-		// Count the occurrences of 6 dice
+		// Sum dice with value 6
 		return CalculScoreUtils.sumDiceValues(dice, Constants.DICE_SIDE_SIX);
 	}
 

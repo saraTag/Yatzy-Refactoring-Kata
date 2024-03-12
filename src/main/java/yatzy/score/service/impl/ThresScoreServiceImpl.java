@@ -2,19 +2,19 @@ package yatzy.score.service.impl;
 
 import yatzy.score.commun.score.utils.CalculScoreUtils;
 import yatzy.score.commun.score.utils.Constants;
-import yatzy.score.service.ScoreObserverService;
+import yatzy.score.service.ScoreObserverStrategyService;
 
 /**
- * Implementation of {@link ScoreObserverService}
+ * Implementation of {@link ScoreObserverStrategyService}
  * It calculates the total score by summing up the 
  * values of all dice with a value of three.
  * 
  * @author stagziria
  */
-public class ThresScoreServiceImpl implements ScoreObserverService {
+public class ThresScoreServiceImpl implements ScoreObserverStrategyService {
 
 	/**
-	 * @see yatzy.score.service.ScoreObserverService#updateScore(int[])
+	 * @see yatzy.score.service.ScoreObserverStrategyService#updateScore(int[])
 	 */
 	@Override
 	public int updateScore(int[] dice) {
@@ -30,7 +30,7 @@ public class ThresScoreServiceImpl implements ScoreObserverService {
 	 */
 	public int calculScore(int[] dice) {
 
-		// Count the occurrences of 3 dice
+		// Sum dice with value 3
 		return CalculScoreUtils.sumDiceValues(dice, Constants.DICE_SIDE_THREE);
 	}
 }

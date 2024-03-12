@@ -2,18 +2,18 @@ package yatzy.score.service.impl;
 
 import yatzy.score.commun.score.utils.CalculScoreUtils;
 import yatzy.score.commun.score.utils.Constants;
-import yatzy.score.service.ScoreObserverService;
+import yatzy.score.service.ScoreObserverStrategyService;
 
 /**
- * Implementation of {@link ScoreObserverService} 
+ * Implementation of {@link ScoreObserverStrategyService} 
  * It calculates the score by summing up all the dice with the value four.
  * 
  * @author stagziria
  */
-public class FoursScoreServiceImpl implements ScoreObserverService {
+public class FoursScoreServiceImpl implements ScoreObserverStrategyService {
 
 	/**
-	 * @see yatzy.score.service.ScoreObserverService#updateScore(int[])
+	 * @see yatzy.score.service.ScoreObserverStrategyService#updateScore(int[])
 	 */
 	@Override
 	public int updateScore(int[] dice) {
@@ -29,7 +29,7 @@ public class FoursScoreServiceImpl implements ScoreObserverService {
 	 */
 	public int calculScore(int[] dice) {
 
-		// Count the occurrences of 4 dice
+		// Sum dice with value 4
 		return CalculScoreUtils.sumDiceValues(dice, Constants.DICE_SIDE_FOUR);
 	}
 }

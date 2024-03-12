@@ -3,62 +3,67 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import yatzy.score.service.impl.FivesScoreServiceImpl;
-import yatzy.score.service.ScoreObserverService;
+import yatzy.score.service.ScoreObserverStrategyService;
 
 
 /**
- * Test class for {@link FivesScoreServiceImpl}.
+ * Tests for {@link FivesScoreService.java}.
  * 
  * @author stagziria
  */
 public class FivesScoreServiceTest {
 
     /**
-     * Test case for calculating the score when no fives are rolled.
+     * Test case for {@link ChanceScoreService#updateScore(int[])} method.
+     * Calculating the score when no fives are rolled.
      */
     @Test
     public void testUpdateScore_TwoFivesRolled() {
     	
-        // Arrange
+        // Variable declaration
         int[] dice = {4, 4, 4, 5, 5};
-        ScoreObserverService fivesScoreService = new FivesScoreServiceImpl();
+        ScoreObserverStrategyService fivesScoreService = new FivesScoreServiceImpl();
 
-        // Act
+        // Service call
         int score = fivesScoreService.updateScore(dice);
 
-        // Assert
+        // Assertion
         assertEquals(10, score);
     }
 
     /**
-     * Test case for calculating the score when one five is rolled.
+     * Test case for {@link ChanceScoreService#updateScore(... int)} method.
+     * Calculating the score when one five is rolled.
      */
     @Test
     public void testUpdateScore_ThreeFiveRolled() {
-        // Arrange
+    	
+        // Variable declaration
         int[] dice = {4, 4, 5, 5, 5};
         FivesScoreServiceImpl fivesScoreService = new FivesScoreServiceImpl();
 
-        // Act
+        // Service call
         int score = fivesScoreService.updateScore(dice);
 
-        // Assert
+        // Assertion
         assertEquals(15, score);
     }
 
     /**
-     * Test case for calculating the score when multiple fives are rolled.
+     * Test case for {@link ChanceScoreService#updateScore(int[])} method.
+     * Calculating the score when multiple fives are rolled.
      */
     @Test
     public void testUpdateScore_FourFivesRolled() {
-        // Arrange
+    	
+        // Variable declaration
         int[] dice = {4, 5, 5, 5, 5};
         FivesScoreServiceImpl fivesScoreService = new FivesScoreServiceImpl();
 
-        // Act
+        // Call service
         int score = fivesScoreService.updateScore(dice);
 
-        // Assert
+        // Assertion
         assertEquals(20, score);
     }
 }

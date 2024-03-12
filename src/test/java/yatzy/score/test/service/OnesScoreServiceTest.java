@@ -3,33 +3,45 @@ package yatzy.score.test.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import yatzy.score.service.ScoreObserverService;
+import yatzy.score.service.ScoreObserverStrategyService;
 import yatzy.score.service.impl.OnesScoreServiceImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class OnesScoreServiceTest {
+/**
+ * Tests for {@link OnesScoreService.java}.
+ * @author stagziria
+ *
+ */
+class OnesScoreServiceTest{
 
-    private ScoreObserverService scoreObserverService;
+    /** score observer service **/
+	private ScoreObserverStrategyService scoreObserverStrategyService;
 
-    @BeforeEach
+	/**
+	 * Sets up the test environment before each test method.
+	 */
+	@BeforeEach
     void setUp() {
-    	scoreObserverService = new OnesScoreServiceImpl();
+    	scoreObserverStrategyService = new OnesScoreServiceImpl();
     }
 
+    /** 
+	 * Test case for {@link OnesScoreService#updateScore(int[])} method.
+	 */
     @Test
-    void testUpdateScore() {
+    void testUpdateScore_MultiplesCases() {
     	
         int[] dice1 = {1, 2, 3, 4, 5};
-        assertEquals(1, scoreObserverService.updateScore(dice1));
+        assertEquals(1, scoreObserverStrategyService.updateScore(dice1));
 
         int[] dice2 = {1, 2, 1, 1, 1};
-        assertEquals(4, scoreObserverService.updateScore(dice2));
+        assertEquals(4, scoreObserverStrategyService.updateScore(dice2));
 
         int[] dice3 = {6, 2, 2, 4, 5};
-        assertEquals(0, scoreObserverService.updateScore(dice3));
+        assertEquals(0, scoreObserverStrategyService.updateScore(dice3));
 
         int[] dice4 = {1, 2, 1, 4, 5};
-        assertEquals(2, scoreObserverService.updateScore(dice4));
+        assertEquals(2, scoreObserverStrategyService.updateScore(dice4));
     }
 }

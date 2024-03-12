@@ -5,29 +5,40 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import yatzy.score.service.impl.FourKindScoreServiceImpl;
-import yatzy.score.service.ScoreObserverService;
+import yatzy.score.service.ScoreObserverStrategyService;
 
-
+/**
+ * Tests for class {@link FourKindScoreService.java}.
+ * @author stagziria
+ *
+ */
 class FourKindScoreServiceTest {
 
-    private ScoreObserverService scoreObserverService;
+    /** score observer service **/
+	private ScoreObserverStrategyService scoreObserverStrategyService;
 
-    @BeforeEach
+	/**
+	 * Sets up the test environment before each test method.
+	 */
+	@BeforeEach
     void setUp() {
-        scoreObserverService = new FourKindScoreServiceImpl();
+        scoreObserverStrategyService = new FourKindScoreServiceImpl();
     }
 
+    /** 
+     * Test case for {@link FourKindScoreService#updateScore(int[])} method.
+     */
     @Test
     void testUpdateScore_MultipleCases() {
   
         int[] dice1 = {3, 3, 3, 3, 5};
-        assertEquals(12, scoreObserverService.updateScore(dice1));
+        assertEquals(12, scoreObserverStrategyService.updateScore(dice1));
 
         int[] dice3 = {5, 5, 5, 4, 5};
-        assertEquals(20, scoreObserverService.updateScore(dice3));
+        assertEquals(20, scoreObserverStrategyService.updateScore(dice3));
 
         int[] dice4 = {3, 3, 3, 3, 3};
-        assertEquals(12, scoreObserverService.updateScore(dice4));
+        assertEquals(12, scoreObserverStrategyService.updateScore(dice4));
     }
    
 }
